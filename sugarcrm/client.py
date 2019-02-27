@@ -17,7 +17,7 @@ class Client(object):
         '8.3': 'rest/v11_4/'
     }
 
-    def __init__(self, url, username, password, version, requests_session=None, requests_hooks=None):
+    def __init__(self, url, version, requests_session=None, requests_hooks=None):
 
         if not url.endswith('/'):
             url += '/'
@@ -28,8 +28,6 @@ class Client(object):
 
         self.version = version
         self.url = url
-        self.username = username
-        self.password = password
         self.requests_session = requests_session
         if requests_hooks and not isinstance(requests_hooks, dict):
             raise Exception(
