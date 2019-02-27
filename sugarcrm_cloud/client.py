@@ -1,7 +1,6 @@
 import requests
 
-from sugarcrm import exception
-from sugarcrm.enumerator import ErrorEnum
+from sugarcrm_cloud import exception
 
 
 class Client(object):
@@ -160,19 +159,6 @@ class Client(object):
         if 'application/json' in response.headers['Content-Type']:
             r = response.json()
         else:
-            try:
-                r = response.json()  # Una version anterior de SugarCRM no utiliza los headers adecuadamente.
-            except Exception:
-                return response.text
+            r = response.text
 
-        if 'name' in r and 'description' in r and 'number' in r:
-            code = r['number']
-            message = r['description']
-
-            try:
-                error_enum = ErrorEnum(code)
-            except Exception:
-                raise exception.UnknownError('Error: {}. Message {}'.format(code, message))
-            if error_enum == ErrorEnum.InvalidLogin:
-                raise exception.InvalidLogin(message)
         return r

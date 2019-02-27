@@ -16,7 +16,7 @@ setup(name='sugarcrm-cloud-python',
       author='Miguel Ferrer',
       author_email='ingferrermiguel@gmail.com',
       license='MIT',
-      packages=['sugarcrm'],
+      packages=['sugarcrm_cloud'],
       install_requires=[
           'requests',
       ],
