@@ -161,4 +161,52 @@ class Client(object):
         else:
             r = response.text
 
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            if r['error'] == 'fatal_error':
+                raise exception.SugarApiExceptionError(r['error_message'])
+            if r['error'] == 'incorrect_version':
+                raise exception.SugarApiExceptionIncorrectVersion(r['error_message'])
+            if r['error'] == 'need_login':
+                raise exception.SugarApiExceptionNeedLogin(r['error_message'])
+            if r['error'] == 'invalid_grant':
+                raise exception.SugarApiExceptionInvalidGrant(r['error_message'])
+            if r['error'] == 'not_authorized':
+                raise exception.SugarApiExceptionNotAuthorized(r['error_message'])
+            if r['error'] == 'inactive_portal_user':
+                raise exception.SugarApiExceptionPortalUserInactive(r['error_message'])
+            if r['error'] == 'portal_not_configured':
+                raise exception.SugarApiExceptionPortalNotConfigured(r['error_message'])
+            if r['error'] == 'no_method':
+                raise exception.SugarApiExceptionNoMethod(r['error_message'])
+            if r['error'] == 'not_found':
+                raise exception.SugarApiExceptionNotFound(r['error_message'])
+            if r['error'] == 'edit_conflict':
+                raise exception.SugarApiExceptionEditConflict(r['error_message'])
+            if r['error'] == 'metadata_out_of_date':
+                raise exception.SugarApiExceptionInvalidHash(r['error_message'])
+            if r['error'] == 'request_too_large':
+                raise exception.SugarApiExceptionRequestTooLarge(r['error_message'])
+            if r['error'] == 'missing_parameter':
+                raise exception.SugarApiExceptionMissingParameter(r['error_message'])
+            if r['error'] == 'invalid_parameter':
+                raise exception.SugarApiExceptionInvalidParameter(r['error_message'])
+            if r['error'] == 'request_failure':
+                raise exception.SugarApiExceptionRequestMethodFailure(r['error_message'])
+            if r['error'] == 'client_outdated':
+                raise exception.SugarApiExceptionClientOutdated(r['error_message'])
+            if r['error'] == 'bad_gateway':
+                raise exception.SugarApiExceptionConnectorResponse(r['error_message'])
+            if r['error'] == 'maintenance':
+                raise exception.SugarApiExceptionMaintenance(r['error_message'])
+            if r['error'] == 'service_unavailable':
+                raise exception.SugarApiExceptionServiceUnavailable(r['error_message'])
+            if r['error'] == 'search_unavailable':
+                raise exception.SugarApiExceptionSearchUnavailable(r['error_message'])
+            if r['error'] == 'search_runtime':
+                raise exception.SugarApiExceptionSearchRuntime(r['error_message'])
+
+            raise Exception('Uncaught error: {}'.format(r['error_message']))
+
         return r
